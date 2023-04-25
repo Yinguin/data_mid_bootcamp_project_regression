@@ -2,7 +2,7 @@
 
 We are conducting an end-to-end analysis of a dataset (regression_data.xls). The analysis includes a linear regression aiming at predicting the selling price of houses based on certain features provided in the dataset, such as location, renovation status and size. The model also aims at understanding which factors are responsible for higher property value ($650K and above).
 
-To sum up the outcome of our prediction model: xxx
+To sum up the outcome of our prediction model: 
 
 This project is part of the IRONHACK Data Analysis bootcamp from January to June 2023.
 
