@@ -15,4 +15,5 @@ The repository contains:
 - A Tableau Public workbook to visualize the data (.twbx)
 
 We have created a documentation of our workflow here: 
+
 And a visual presentation of the project's findings here: 
