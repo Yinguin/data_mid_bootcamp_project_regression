@@ -13,4 +13,6 @@ The repository contains:
 - A Jupyter notebook with the analysis and the regression model (mid-bootcamp-project-regression.ipynb). 
 - An SQL-Query-File exploring the data further (.sql)
 - A Tableau Public workbook to visualize the data (.twbx)
-We have created a visual documentation of the project's findings here: 
+
+We have created a documentation of our workflow here: 
+And a visual presentation of the project's findings here: 
