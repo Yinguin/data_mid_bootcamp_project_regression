@@ -8,7 +8,7 @@ USE house_price_regression;
 #DROP TABLE house_price_data;
 CREATE TABLE house_price_data (
     house_id BIGINT NOT NULL,
-    date TEXT DEFAULT NULL,		# Importing it as text because in its current format it cannot be imported. Can be fixed after import if needed. Set to default null, as this will be useful to check for errors in its conversion to date
+    date TEXT DEFAULT NULL,		# importing it as text because in its current format it cannot be imported. Can be fixed after import if needed. Set to default null, as this will be useful to check for errors in its conversion to date
     bedrooms INT DEFAULT NULL,
     bathrooms DOUBLE DEFAULT NULL,
     sqft_living INT DEFAULT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE house_price_data (
 
 
 #### 3. Importing data from .csv file ####
-#SHOW VARIABLES LIKE 'local_infile';		# To check if local_infile is off/on.
+#SHOW VARIABLES LIKE 'local_infile';		# to check if local_infile is off/on.
 #SET GLOBAL local_infile = 1;	# If local_infile is off, to set it to on.
 #SHOW VARIABLES LIKE 'secure_file_priv'; # To see the setting of the secure_file_priv, if NULL then no restriction.
 
@@ -438,7 +438,7 @@ CREATE VIEW highest_to_lowest AS
 WITH ranked_expensive AS (
 SELECT 
     *,
-    ROW_NUMBER() OVER (PARTITION BY house_id ORDER BY price DESC) AS price_rank1 # to be used to ensure that no houses are listed twice
+    ROW_NUMBER() OVER (PARTITION BY house_id ORDER BY price DESC) AS price_rank1 # used to ensure that no houses are listed twice
 FROM
     house_price_data
     )
@@ -458,7 +458,7 @@ WHERE price_rank2 = 11;
 # sales_id	house_id		date	bedrooms	bathrooms	sqft_living		sqft_lot	floors	waterfront	view	condition_	grade	sqft_above	sqft_basement	yr_built	yr_renovated	zipcode		latid	 longit		sqft_living15	sqft_lot15	price	price_ranking
 #	12364	6065300370	2015-05-06		5			6			7440		21540		  2			0		  0			3		  12		5550		1890		  2003			0			  98006	    47.5692	 -122.189		4740			19329	4210000		11
 
-# alternatively, as expected, the same property can be returned by using the view highest_priced_properties, which was created earlier
+# Alternatively, as expected, the same property can be returned by using the view highest_priced_properties, which was created earlier
 WITH test_cte AS (
 	SELECT
     *,
