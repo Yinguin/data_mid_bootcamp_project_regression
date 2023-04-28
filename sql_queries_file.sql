@@ -10,7 +10,7 @@ CREATE TABLE house_price_data (
     house_id TEXT NOT NULL,
     date TEXT DEFAULT NULL, # Importing it as text because in its current format it cannot be imported. Can be fixed after import if needed. Set to default null, as this will be useful to check for errors in its conversion to date.
     bedrooms INT DEFAULT NULL,
-    bathrooms INT DEFAULT NULL,
+    bathrooms DOUBLE DEFAULT NULL,
     sqft_living INT DEFAULT NULL,
     sqft_lot INT DEFAULT NULL,
     floors DOUBLE DEFAULT NULL,
@@ -32,9 +32,9 @@ CREATE TABLE house_price_data (
 
 
 #### 3. Importing data from .csv file ####
-#SHOW VARIABLES LIKE 'local_infile';		# local_infile off
+# SHOW VARIABLES LIKE 'local_infile';		# To check if local_infile is off/on.
 
-#SET GLOBAL local_infile = 1;	# because local_infile is off
+# SET GLOBAL local_infile = 1;	# If local_infile is off, to set it to on.
 
 # my.ini file in C:\ProgramData\MySQL\MySQL Server 8.0 was altered and "secure-file-priv" was given an empty ("") value to allow following query
 # file regression_data.csv was copied to C:\ProgramData\MySQL\MySQL Server 8.0\Data\house_price_regression in order to be accessible using this query
