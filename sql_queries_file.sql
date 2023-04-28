@@ -33,16 +33,16 @@ CREATE TABLE house_price_data (
 
 #### 3. Importing data from .csv file ####
 # SHOW VARIABLES LIKE 'local_infile';		# To check if local_infile is off/on.
-
 # SET GLOBAL local_infile = 1;	# If local_infile is off, to set it to on.
+# SHOW VARIABLES LIKE 'secure_file_priv'; # To see the setting of the secure_file_priv, if NULL then no restriction.
 
-# my.ini file in C:\ProgramData\MySQL\MySQL Server 8.0 was altered and "secure-file-priv" was given an empty ("") value to allow following query
-# file regression_data.csv was copied to C:\ProgramData\MySQL\MySQL Server 8.0\Data\house_price_regression in order to be accessible using this query
-LOAD DATA INFILE 'regression_data.csv' 	
+# The file my.ini was altered and "secure-file-priv" was given an empty ("") value to allow the following query.
+# The file regression_data.csv was copied to the same folder in order to be accessible using this query.
+LOAD DATA LOCAL INFILE 'regression_data.csv'
 INTO TABLE house_price_data
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
-LINES TERMINATED BY '\r\n'
+LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
 # The table does not have a primary key, which could be an issue, so the sales will be indexed and the index will play the role of the table's primary key.
