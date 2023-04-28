@@ -286,6 +286,8 @@ SELECT
     bathrooms,
     sqft_living15 AS living_footage,
     sqft_lot15 AS lot_footage,
+	sqft_above AS footage_above,
+    sqft_basement AS basement_footage,
     floors,
     waterfront,
     view,
@@ -302,3 +304,164 @@ FROM
 WHERE date_ranking = 1;
 # finally 9730 items returned
 
+#### 12. Manager's request: show properties with price = 2*avg(price)
+WITH highest_cte AS (	
+SELECT 
+    *,
+    ROW_NUMBER() OVER (PARTITION BY house_id ORDER BY date DESC) AS date_ranking
+FROM
+    house_price_data
+    )
+SELECT
+	house_id,
+	bedrooms,
+    bathrooms,
+    sqft_living AS living_footage,
+    sqft_living15 AS living_footage_15,
+    sqft_lot AS lot_footage,
+    sqft_lot15 AS lot_footage15,
+    sqft_above AS footage_above,
+    sqft_basement AS basement_footage,
+    floors,
+    waterfront,
+    view,
+    condition_,
+    grade,
+    yr_built AS year_built,
+    yr_renovated AS year_renovated,
+    zipcode,
+    latid AS latitude,
+    longit AS longitude,
+    price
+FROM
+	highest_cte
+WHERE
+    price >= 2 * (SELECT # no properties have exactly 2 times the price of the average, thus the ones >= will be shown instead
+            AVG(price)
+        FROM
+            house_price_data)
+	AND date_ranking = 1; # making sure only the last sales' record for each property is shown
+# 1240 properties to show
+
+
+#### 13. Turn query above into view
+CREATE VIEW highest_priced_properties AS
+WITH highest_cte AS (
+SELECT 
+    *,
+    ROW_NUMBER() OVER (PARTITION BY house_id ORDER BY date DESC) AS date_ranking
+FROM
+    house_price_data
+    )
+SELECT
+	house_id,
+	bedrooms,
+    bathrooms,
+    sqft_living AS living_footage,
+    sqft_living15 AS living_footage_15,
+    sqft_lot AS lot_footage,
+    sqft_lot15 AS lot_footage15,
+    sqft_above AS footage_above,
+    sqft_basement AS basement_footage,
+    floors,
+    waterfront,
+    view,
+    condition_,
+    grade,
+    yr_built AS year_built,
+    yr_renovated AS year_renovated,
+    zipcode,
+    latid AS latitude,
+    longit AS longitude,
+    price
+FROM
+	highest_cte
+WHERE
+    price >= 2 * (SELECT 
+            AVG(price)
+        FROM
+            house_price_data)
+	AND date_ranking = 1
+ORDER BY price DESC;
+
+select * from highest_priced_properties;
+# the view functions well
+
+#### 14. Difference in avg(price) between properties with 3 and 4 bedrooms
+WITH avg_price_4 as (
+	SELECT
+		AVG(price) as avg_4
+	FROM
+		house_price_data
+	WHERE
+		bedrooms = 4)
+SELECT round(avg_4 - (
+					SELECT
+						AVG(price)
+					FROM
+						house_price_data
+					WHERE
+						bedrooms = 3
+						),2) AS difference_3_4_bedrooms
+FROM
+	avg_price_4;
+# difference = 169,263.21$
+
+#### 15. Distinct zipcodes
+SELECT DISTINCT
+    zipcode
+FROM
+    house_price_data;
+# 70 rows returned
+
+
+#### 16. List of renovated properties
+SELECT 
+    *
+FROM
+    house_price_data
+WHERE
+    yr_renovated <> 0;
+# 914 rows returned
+
+
+#### 17. 11th most expensive property in database
+CREATE VIEW highest_to_lowest AS
+WITH ranked_expensive AS (
+SELECT 
+    *,
+    ROW_NUMBER() OVER (PARTITION BY house_id ORDER BY price DESC) AS price_rank1 # to be used to ensure that no houses are listed twice
+FROM
+    house_price_data
+    )
+SELECT
+	*,
+    ROW_NUMBER() OVER (ORDER BY price DESC) AS price_rank2	# the actual ranking that is relevant to the question and will be use in the next query
+FROM
+	ranked_expensive
+WHERE
+	price_rank1 = 1;
+
+SELECT
+	*
+FROM
+	highest_to_lowest
+WHERE price_rank2 = 11;
+# sales_id	house_id		date	bedrooms	bathrooms	sqft_living		sqft_lot	floors	waterfront	view	condition_	grade	sqft_above	sqft_basement	yr_built	yr_renovated	zipcode		latid	 longit		sqft_living15	sqft_lot15	price	price_ranking
+#	12364	6065300370	2015-05-06		5			6			7440		21540		  2			0		  0			3		  12		5550		1890		  2003			0			  98006	    47.5692	 -122.189		4740			19329	4210000		11
+
+# alternatively, the same property can be returned by using the view highest_priced_properties, which was created earlier, as expected
+WITH test_cte AS (
+	SELECT
+    *,
+    ROW_NUMBER() OVER (ORDER BY price DESC) AS price_rank
+    FROM
+    highest_priced_properties
+    )
+SELECT
+	 *
+FROM
+	test_cte
+WHERE
+	price_rank = 11;
+# same output as above
