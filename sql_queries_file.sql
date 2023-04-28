@@ -5,10 +5,10 @@ CREATE DATABASE house_price_regression;
 #### 2. Creating table house_price_data ####
 USE house_price_regression;
 
-#drop table house_price_data;
+DROP TABLE house_price_data;
 CREATE TABLE house_price_data (
     house_id TEXT NOT NULL,
-    date TEXT DEFAULT NULL,		# Importing it as text because in its current format it cannot be imported. Can be fixed after import if needed. Set to default null, as this will be useful to check for errors in its conversion to date
+    date TEXT DEFAULT NULL, # Importing it as text because in its current format it cannot be imported. Can be fixed after import if needed. Set to default null, as this will be useful to check for errors in its conversion to date.
     bedrooms INT DEFAULT NULL,
     bathrooms INT DEFAULT NULL,
     sqft_living INT DEFAULT NULL,
@@ -32,9 +32,9 @@ CREATE TABLE house_price_data (
 
 
 #### 3. Importing data from .csv file ####
-SHOW VARIABLES LIKE 'local_infile';		# local_infile off
+#SHOW VARIABLES LIKE 'local_infile';		# local_infile off
 
-SET GLOBAL local_infile = 1;	# because local_infile is off
+#SET GLOBAL local_infile = 1;	# because local_infile is off
 
 # my.ini file in C:\ProgramData\MySQL\MySQL Server 8.0 was altered and "secure-file-priv" was given an empty ("") value to allow following query
 # file regression_data.csv was copied to C:\ProgramData\MySQL\MySQL Server 8.0\Data\house_price_regression in order to be accessible using this query
@@ -45,12 +45,12 @@ ENCLOSED BY '"'
 LINES TERMINATED BY '\r\n'
 IGNORE 1 ROWS;
 
-## *the table does not have a primary key, which could be an issue, so the sales will be indexed and the index will play the role of the table's primary key.*
+# The table does not have a primary key, which could be an issue, so the sales will be indexed and the index will play the role of the table's primary key.
 ALTER TABLE house_price_data
 ADD sales_id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
 	ADD PRIMARY KEY (sales_id);
 
-## *After the primary key was added, its relative position in relation to the table will be changed to first.*
+# After the primary key was added, its relative position in relation to the table will be changed to first.
 ALTER TABLE house_price_data
 MODIFY COLUMN sales_id INT UNSIGNED NOT NULL AUTO_INCREMENT
 FIRST;
