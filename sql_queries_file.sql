@@ -32,6 +32,8 @@ CREATE TABLE house_price_data (
 
 
 #### 3. Importing data from .csv file ####
+# Either we can use the data import wizard or the following methods:
+
 #SHOW VARIABLES LIKE 'local_infile';		# to check if local_infile is off/on.
 #SET GLOBAL local_infile = 1;	# If local_infile is off, to set it to on.
 #SHOW VARIABLES LIKE 'secure_file_priv'; # To see the setting of the secure_file_priv, if NULL then no restriction.
