@@ -5,12 +5,12 @@ CREATE DATABASE house_price_regression;
 #### 2. Creating table house_price_data ####
 USE house_price_regression;
 
-#drop table house_price_data;
+#DROP TABLE house_price_data;
 CREATE TABLE house_price_data (
-    house_id TEXT NOT NULL,
-    date TEXT DEFAULT NULL,		# Importing it as text because in its current format it cannot be imported. Can be fixed after import if needed. Set to default null, as this will be useful to check for errors in its conversion to date
+    house_id BIGINT NOT NULL,
+    date TEXT DEFAULT NULL,		# importing it as text because in its current format it cannot be imported. Can be fixed after import if needed. Set to default null, as this will be useful to check for errors in its conversion to date
     bedrooms INT DEFAULT NULL,
-    bathrooms INT DEFAULT NULL,
+    bathrooms DOUBLE DEFAULT NULL,
     sqft_living INT DEFAULT NULL,
     sqft_lot INT DEFAULT NULL,
     floors DOUBLE DEFAULT NULL,
@@ -28,16 +28,18 @@ CREATE TABLE house_price_data (
     sqft_living15 INT DEFAULT NULL,
     sqft_lot15 INT DEFAULT NULL,
     price INT DEFAULT NULL
-);							# numericals set to default null to easily check if something went wrong during data importing. ***what was set to null and what not might need to be reviewed***
+);							# numericals set to default null to easily check if something went wrong during data importing.
 
 
 #### 3. Importing data from .csv file ####
-SHOW VARIABLES LIKE 'local_infile';		# local_infile off
+# Either we can use the data import wizard or the following methods:
 
-SET GLOBAL local_infile = 1;	# because local_infile is off
+#SHOW VARIABLES LIKE 'local_infile';		# to check if local_infile is off/on.
+#SET GLOBAL local_infile = 1;	# If local_infile is off, to set it to on.
+#SHOW VARIABLES LIKE 'secure_file_priv'; # To see the setting of the secure_file_priv, if NULL then no restriction.
 
-# my.ini file in C:\ProgramData\MySQL\MySQL Server 8.0 was altered and "secure-file-priv" was given an empty ("") value to allow following query
-# file regression_data.csv was copied to C:\ProgramData\MySQL\MySQL Server 8.0\Data\house_price_regression in order to be accessible using this query
+# The file my.ini was altered and "secure-file-priv" was given an empty ("") value to allow the following query.
+# The file regression_data.csv was copied to the same folder in order to be accessible using this query.
 LOAD DATA INFILE 'regression_data.csv' 	
 INTO TABLE house_price_data
 FIELDS TERMINATED BY ','
@@ -45,12 +47,12 @@ ENCLOSED BY '"'
 LINES TERMINATED BY '\r\n'
 IGNORE 1 ROWS;
 
-## *the table does not have a primary key, which could be an issue, so the sales will be indexed and the index will play the role of the table's primary key.*
+## The table does not have a primary key, which could be an issue, so the sales will be indexed and the index will play the role of the table's primary key.
 ALTER TABLE house_price_data
 ADD sales_id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
 	ADD PRIMARY KEY (sales_id);
 
-## *After the primary key was added, its relative position in relation to the table will be changed to first.*
+## After the primary key was added, its relative position in relation to the table will be changed to first.
 ALTER TABLE house_price_data
 MODIFY COLUMN sales_id INT UNSIGNED NOT NULL AUTO_INCREMENT
 FIRST;
@@ -110,7 +112,7 @@ SELECT DISTINCT
 FROM
     house_price_data
 ORDER BY bathrooms ASC;
-# 1, 2, 3, 4, 5, 6, 7, 8
+# 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 4.25, 4.5, 4.75, 5, 5.25, 5.5, 5.75, 6, 6.25, 6.5, 6.75, 7.5, 7.75, 8
 
 # floors
 SELECT DISTINCT
@@ -157,7 +159,7 @@ LIMIT 10;
 # 3835500195:	4,490,000$
 
 
-#### 9. Average price of all properties
+#### 9. Average price of all properties ####
 SELECT 
     ROUND(AVG(price), 2) as avg_price
 FROM
@@ -175,18 +177,18 @@ FROM
 GROUP BY bedrooms
 ORDER BY bedrooms ASC;
 # n_bedrooms	average_price
-# 		1			318239.46$
-# 		2			401387.75$
-# 		3			466301.47$
-# 		4			635564.68$
-# 		5			786874.13$
-# 		6			825853.50$
-# 		7			951447.82$
-# 		8			1105076.92$
-# 		9			893999.83$
-# 		10			820000.00$
-# 		11			520000.00$
-# 		33			640000.00$
+# 		1			318,239.46$
+# 		2			401,387.75$
+# 		3			466,301.47$
+# 		4			635,564.68$
+# 		5			786,874.13$
+# 		6			825,853.50$
+# 		7			951,447.82$
+# 		8			110,5076.92$
+# 		9			893,999.83$
+# 		10			820,000.00$
+# 		11			520,000.00$
+# 		33			640,000.00$
 
 ## 10.2 Average sqft_living of houses by bedrooms
 SELECT 
@@ -196,7 +198,7 @@ FROM
     house_price_data
 GROUP BY sqft_living
 ORDER BY sqft_living ASC;
-# (1034 rows returned)
+# 1034 rows returned
 
 ## 10.3 Average price with/without waterfront
 SELECT 
@@ -206,8 +208,8 @@ FROM
     house_price_data
 GROUP BY waterfront;
 # # waterfront	average_price
-#		0			531776.78$
-#		1			1662524.18$
+#		No			531,776.78$
+#		Yes			1,662,524.18$
 
 ## 10.4 Correlation between condition and grade(?)
 SELECT 
@@ -217,9 +219,16 @@ FROM
     house_price_data
 GROUP BY `condition`
 ORDER BY `condition` ASC;
-# positive correlation up to condition=3, then interestingly a negative correlation develops as the grade starts to decrease by each increase in the condition from condition 4 up to 5.
+# A positive correlation is observed up to condition=3, then interestingly a negative correlation develops as the grade starts to decrease by each increase in the condition from 4 to 5.
+## condition	avg_grade_by_condition
+#		1			5.9655
+#		2			6.5412
+#		3			7.8274
+#		4			7.3826
+#		5			7.3210
 
-#### 11. Addressing customer's interest in specific estates
+
+#### 11. Addressing customer's interest in specific estates ####
 SELECT 
     *
 FROM
@@ -232,9 +241,9 @@ WHERE
         AND condition_ >= 3
         AND grade >= 5
         AND price < 300000;
-# 9823 rows returned
+# 9823 rows returned			
 
-# however, some houses might have been sold more than once
+# However, some houses might have been sold more than once...
 SELECT 
     house_id, COUNT(sales_id)
 FROM
@@ -244,7 +253,7 @@ HAVING COUNT(sales_id) > 1
 ORDER BY COUNT(sales_id) DESC;
 # 176 houses have been sold more than once in the timeframe given
 
-# The customer would not be interested to see the same listing twice or thrice. The chance that this is the case for some of the listings can be checked with the following query
+# The customer would not be interested to see the same listing twice or thrice. The chance that this is the case for some of the listings can be checked with the following query:
 WITH sales_short AS ( 
 SELECT 
     *
@@ -264,7 +273,7 @@ GROUP BY house_id
 HAVING count(sales_id) > 1;
 # 92 of the 9823 houses that meet the criteria have been sold more than once. 
 
-# To only have each of the 92 houses once in the table returned, only the last date will have to be picked, since this is the only relevant date as well. So all that remains to be done is to add this one conditional to the previous query
+# To only have each of the 92 houses appear once in the table returned, only the last date will have to be picked, since this is the only relevant date as well. So all that remains to be done is to add this one condition to the previous query:
 WITH sales_short AS ( 
 SELECT
 	*,
@@ -302,9 +311,10 @@ SELECT
 FROM
     sales_short
 WHERE date_ranking = 1;
-# finally 9730 items returned
+# Finally 9730 items returned		## Note: 9730 + 92 = 9822, but as shown with the previous query, one of the houses was sold thrice, while all the rest 91 were sold twice, which means that both of its oldest purchase records would be excluded by the last query and thus 9822 + 1 = 9823 gives the expected output, which is correct. ##
 
-#### 12. Manager's request: show properties with price = 2*avg(price)
+
+#### 12. Manager's request: show properties with price = 2*avg(price) ####
 WITH highest_cte AS (	
 SELECT 
     *,
@@ -336,7 +346,7 @@ SELECT
 FROM
 	highest_cte
 WHERE
-    price >= 2 * (SELECT # no properties have exactly 2 times the price of the average, thus the ones >= will be shown instead
+    price >= 2 * (SELECT # no properties have exactly 2 times the price of the average, thus the ones with a greater or equal price than that will be shown instead
             AVG(price)
         FROM
             house_price_data)
@@ -344,7 +354,7 @@ WHERE
 # 1240 properties to show
 
 
-#### 13. Turn query above into view
+#### 13. Turn query above into view ####
 CREATE VIEW highest_priced_properties AS
 WITH highest_cte AS (
 SELECT 
@@ -385,9 +395,9 @@ WHERE
 ORDER BY price DESC;
 
 select * from highest_priced_properties;
-# the view functions well
+# The view functions well (again 1240 items returned)
 
-#### 14. Difference in avg(price) between properties with 3 and 4 bedrooms
+#### 14. Difference in avg(price) between properties with 3 and 4 bedrooms ####
 WITH avg_price_4 as (
 	SELECT
 		AVG(price) as avg_4
@@ -395,14 +405,14 @@ WITH avg_price_4 as (
 		house_price_data
 	WHERE
 		bedrooms = 4)
-SELECT round(avg_4 - (
+SELECT ROUND(avg_4 - (
 					SELECT
 						AVG(price)
 					FROM
 						house_price_data
 					WHERE
 						bedrooms = 3
-						),2) AS difference_3_4_bedrooms
+						),2) AS diff_avg_3_4_beds
 FROM
 	avg_price_4;
 # difference = 169,263.21$
@@ -430,13 +440,13 @@ CREATE VIEW highest_to_lowest AS
 WITH ranked_expensive AS (
 SELECT 
     *,
-    ROW_NUMBER() OVER (PARTITION BY house_id ORDER BY price DESC) AS price_rank1 # to be used to ensure that no houses are listed twice
+    ROW_NUMBER() OVER (PARTITION BY house_id ORDER BY price DESC) AS price_rank1 # used to ensure that no houses are listed twice
 FROM
     house_price_data
     )
 SELECT
 	*,
-    ROW_NUMBER() OVER (ORDER BY price DESC) AS price_rank2	# the actual ranking that is relevant to the question and will be use in the next query
+    ROW_NUMBER() OVER (ORDER BY price DESC) AS price_rank2	# the actual ranking that is relevant to the question and will be used in the next query
 FROM
 	ranked_expensive
 WHERE
@@ -450,7 +460,7 @@ WHERE price_rank2 = 11;
 # sales_id	house_id		date	bedrooms	bathrooms	sqft_living		sqft_lot	floors	waterfront	view	condition_	grade	sqft_above	sqft_basement	yr_built	yr_renovated	zipcode		latid	 longit		sqft_living15	sqft_lot15	price	price_ranking
 #	12364	6065300370	2015-05-06		5			6			7440		21540		  2			0		  0			3		  12		5550		1890		  2003			0			  98006	    47.5692	 -122.189		4740			19329	4210000		11
 
-# alternatively, the same property can be returned by using the view highest_priced_properties, which was created earlier, as expected
+# Alternatively, as expected, the same property can be returned by using the view highest_priced_properties, which was created earlier
 WITH test_cte AS (
 	SELECT
     *,
