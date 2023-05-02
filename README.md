@@ -14,7 +14,7 @@ The repository contains:
 - The original dataset provided for the project (see above) and a reduced dataset after cleaning (data_cleaned.csv) as well as after processing (data_processed.csv).
 - A Jupyter notebook with the analysis and the regression models (mid-bootcamp-project-regression.ipynb). 
 - An SQL-Query-File exploring the data further (sql_queries_file.sql)
-- A Tableau Public workbook to visualize the data (data_mid_bootcamp_project_regression.twbx)
+- A Tableau Public workbook to visualize the data (mid_bootcamp_project_regression.twbx)
 
 We have created a documentation of our workflow here: https://trello.com/b/Sg2OBiDB/mid-bootcamp-project-property-prices
 
