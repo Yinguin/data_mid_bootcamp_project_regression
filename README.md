@@ -1,11 +1,13 @@
 ### Project Description
 
-We are conducting an end-to-end analysis of a dataset. The analysis includes three regression models to **Predict selling prices of houses in King County, WA** based on certain features provided in the dataset, such as location, renovation status and size. The models also aim at understanding which factors are responsible for higher property value ($650K and above). Hence our target feature is the property's price.
+We are conducting an end-to-end analysis of a dataset. The analysis includes three regression models to **Predict selling prices of houses in King County, WA** based on certain features provided in the dataset, such as location, age and size. The models also aim at understanding which factors are responsible for higher property value ($650K and above). Hence our target feature is the property's price.
 The dataset consists of historic data of around 22,000 properties sold between May 2014 and May 2015 in King County, WA, United States.
 
-We model **Linear Regression, KNN Regression and XGBoost** both on the cleaned dataset and on the preprocessed dataset.
+We model **Linear Regression, KNN Regression and XGBoost** both on the original dataset (with cosmetic cleaning) and on the preprocessed dataset.
 
 **To sum up our findings:**
+
+On the original datset all three models performed surprisingly well. The XGBoost model performed best, followed by the Linear Regression and lastly the KNN Regression model.
 
 During preprocessing we converted a number of features and based on the effect on the baseline models found out that:
 - the selling date is irrelevant.
@@ -20,13 +22,16 @@ We looked at the dataset in Python, Tableau and SQL. Due to high correlations, s
 - the features grade (grading the property from 1 to 13) and condition (rating the condition of the property from 1 to 5) essentially indicate the same. 
 Consequently, we dropped the respective features to slim the dataset.
 
-When analyzing different features for outliers, extreme datapoints, we concluded that:
+When analyzing different features for outliers, which are extreme datapoints, we concluded that:
 - 5 properties with a very high amount of bedrooms are most likely data entry errors. 
 - 1 property in a rural area has an unproportionally large plot size, but location, living space and age seem to have a stronger impact on the price.
-- there are a few properties with an extremely large living space, removing them also removed those properties with extreme basement sizes in relation to the entire dataset.
+- there are a few properties with an extremely large living space, removing them removed also those properties with extreme basement size in relation to the entire dataset.
 
-After preprocessing, we applied again our three prediction models **Linear Regression, KNN Regression and XGBoost**. The XGBoost model performed the best, followed by the Linear Regression and lastly the KNN Regression model.
+After preprocessing, we applied again our three prediction models **Linear Regression, KNN Regression and XGBoost**. As before, the XGBoost model performed best, followed by the Linear Regression and lastly the KNN Regression model. All models improved in performance, the Linear Regression model the most while XGBoost showed only small improvement.
 
+We extracted a subset that includes only those properties with prices of 650K and above. Comparing the results of the models with and without the high-priced subset, we found that the higher-proced properties are not significantly different from the lower-priced properties in terms of the features that are important for predicting property prices.
+
+**Conclusions**
 
 
 
