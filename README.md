@@ -29,7 +29,7 @@ When analyzing different features for outliers, which are extreme datapoints, we
 
 After preprocessing, we applied again our three prediction models **Linear Regression, KNN Regression and XGBoost**. As before, the XGBoost model performed best, followed by the Linear Regression and lastly the KNN Regression model. All models improved in performance, the Linear Regression model the most while XGBoost showed only small improvement.
 
-We extracted a subset that includes only those properties with prices of 650K and above. Comparing the results of the models with and without the high-priced subset, we found that the higher-proced properties are not significantly different from the lower-priced properties in terms of the features that are important for predicting property prices.
+We extracted a subset that includes only those properties with prices of 650K and above. Comparing the results of the models with and without the high-priced subset, we found that the higher-proced properties are not significantly different from the rest in terms of the features that are important for predicting property prices.
 
 **Conclusions**
 
