@@ -20,6 +20,7 @@ We looked at the dataset in Python, Tableau and SQL. Due to high correlations, s
 - the data collected before renovation of some properties in 2015 is more meaningful thatn the one collected afterwards.
 - the number of bathrooms do not impact the price.
 - the features grade (grading the property from 1 to 13) and condition (rating the condition of the property from 1 to 5) essentially indicate the same. 
+
 Consequently, we dropped the respective features to slim the dataset.
 
 When analyzing different features for outliers, which are extreme datapoints, we concluded that:
