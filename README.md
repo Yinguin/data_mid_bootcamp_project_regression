@@ -48,6 +48,6 @@ The repository contains:
 
 We have created a documentation of our workflow here: https://trello.com/b/Sg2OBiDB/mid-bootcamp-project-property-prices
 
-And a visual presentation of the project's findings here: 
+And a visual presentation of the project's findings here: https://slides.com/inga-1/b 
 
 This project is part of the IRONHACK Data Analysis bootcamp from January to June 2023.
