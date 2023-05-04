@@ -41,7 +41,7 @@ We extracted a subset that includes only those properties with prices of 650K an
 ### Usage Instructions
 
 The repository contains:
-- A folder (datasets) with the original dataset provided for the project (regression_data.csv/.xls) and a dataset after cleaning (data_cleaned.csv) as well as after processing (data_processed.csv). The latter also for a subset of those properties of prices =< $650K (data_650K_processed.csv).
+- A folder (datasets) with the original dataset provided for the project (regression_data.csv/.xls) and a dataset after cleaning (data_cleaned.csv) as well as after processing (data_processed.csv).
 - A Jupyter notebook with the analysis and the regression models (mid-bootcamp-project-regression.ipynb). 
 - An SQL-Query-File exploring the data further (sql_mid_bootcamp_project_regression.sql)
 - A Tableau Public workbook to visualize the data (tableau_mid_bootcamp_project_regression.twbx)
