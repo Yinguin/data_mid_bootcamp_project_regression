@@ -20,6 +20,7 @@ We looked at the dataset in Python, Tableau and SQL. Due to high correlations, s
 - the data collected before renovation of some properties in 2015 is more meaningful thatn the one collected afterwards.
 - the number of bathrooms do not impact the price.
 - the features grade (grading the property from 1 to 13) and condition (rating the condition of the property from 1 to 5) essentially indicate the same. 
+
 Consequently, we dropped the respective features to slim the dataset.
 
 When analyzing different features for outliers, which are extreme datapoints, we concluded that:
@@ -48,6 +49,6 @@ The repository contains:
 
 We have created a documentation of our workflow here: https://trello.com/b/Sg2OBiDB/mid-bootcamp-project-property-prices
 
-And a visual presentation of the project's findings here: 
+And a visual presentation of the project's findings here: https://slides.com/inga-1/b 
 
 This project is part of the IRONHACK Data Analysis bootcamp from January to June 2023.
