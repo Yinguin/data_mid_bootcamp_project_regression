@@ -28,13 +28,17 @@ When analyzing different features for outliers, which are extreme datapoints, we
 - 1 property in a rural area has an unproportionally large plot size, but location, living space and age seem to have a stronger impact on the price.
 - there are a few properties with an extremely large living space, removing them removed also those properties with extreme basement size in relation to the entire dataset.
 
+We ran the RFE algorith to assess feature importance. The heatmap and the RFE algorithm are providing complementary information. The heatmap shows the pairwise correlations between features and the target variable, while the RFE algorithm takes into account the interactions between features and their combined effect on the model's performance. Therefore, it's important to consider both methods when interpreting our results.
+
 After preprocessing, we applied again our three prediction models **Linear Regression, KNN Regression and XGBoost**. As before, the XGBoost model performed best, followed by the Linear Regression and lastly the KNN Regression model. All models improved in performance, the Linear Regression model the most while XGBoost showed only small improvement.
 
-We extracted a subset that includes only those properties with prices of 650K and above. Comparing the results of the models with and without the high-priced subset, we found that the higher-proced properties are not significantly different from the rest in terms of the features that are important for predicting property prices.
+We extracted a subset that includes only those properties with prices of 650K and above. Comparing the results of the models with and without the high-priced subset, we found that the higher-proced properties are not significantly different from the rest in terms of the features that are important for predicting property prices, but the reduced model performs worse.
 
 **Conclusions**
 
-
+1. The most important features are related to location, size and state of the property: zipcode_category/ lat and long, waterfront, sqft_living and grade.
+2. Higher-proced properties are not significantly different from the rest in terms of the features that are important for predicting property prices. But a main driver for higher property prices is a location with waterfront or nearby the water. 
+3. Prices will....
 
 
 
