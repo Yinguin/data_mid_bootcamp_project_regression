@@ -38,10 +38,7 @@ We extracted a subset that includes only those properties with prices of 650K an
 
 1. The most important features are related to location, size and state of the property: zipcode_category/ lat and long, waterfront, sqft_living and grade.
 2. Higher-proced properties are not significantly different from the rest in terms of the features that are important for predicting property prices. But a main driver for higher property prices is a location with waterfront or nearby the water. 
-3. Prices will....
-
-
-
+3. The prices of the high-end properties above 2M will partly increase and partly decrease, while prices of properties in the lowest segment (around 100-200K) will all decrease.
 
 ### Usage Instructions
 
