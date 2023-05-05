@@ -26,7 +26,7 @@ Consequently, we dropped the respective features to slim the dataset.
 When analyzing different features for outliers, which are extreme datapoints, we concluded that:
 - 5 properties with a very high amount of bedrooms are most likely data entry errors. 
 - 1 property in a rural area has an unproportionally large plot size, but location, living space and age seem to have a stronger impact on the price.
-- there are a few properties with an extremely large living space, removing them removed also those properties with extreme basement size in relation to the entire dataset.
+- there are a few properties with an extremely large living space. Removing them also removed those properties with extreme basement size in relation to the entire dataset.
 
 We ran the RFE algorith to assess feature importance. The heatmap and the RFE algorithm are providing complementary information. The heatmap shows the pairwise correlations between features and the target variable, while the RFE algorithm takes into account the interactions between features and their combined effect on the model's performance. Therefore, it's important to consider both methods when interpreting our results.
 
