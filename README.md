@@ -17,7 +17,7 @@ During preprocessing we converted a number of features and based on the effect o
 
 We looked at the dataset in Python, Tableau and SQL. Due to high correlations, similar meaning or better plot distribution of certain dependent features we assessed that:  
 - many features related to size of living space, basement and plot are having the same effect on our target, the price.
-- the data collected before renovation of some properties in 2015 is more meaningful thatn the one collected afterwards.
+- the data collected before renovation of some properties in 2015 is more meaningful that the one collected afterwards.
 - the number of bathrooms do not impact the price.
 - the features grade (grading the property from 1 to 13) and condition (rating the condition of the property from 1 to 5) essentially indicate the same. 
 
